@@ -10,6 +10,15 @@ repositories {
 }
 
 dependencies {
+    // https://mavenlibs.com/maven/dependency/com.google.code.gson/gson
+    implementation 'com.google.code.gson:gson:2.10'
+
+    // https://mavenlibs.com/maven/dependency/org.eclipse.persistence/eclipselink
+    implementation 'org.eclipse.persistence:eclipselink:4.0.0'
+
+    // https://mavenlibs.com/maven/dependency/mysql/mysql-connector-java
+    implementation 'mysql:mysql-connector-java:8.0.31'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
