@@ -6,7 +6,7 @@ import javafx.scene.control.ListView;
 
 public class TaskItemCell extends ListCell<TaskItem> {
 
-    private ListView<TaskItem> listView;
+    private final ListView<TaskItem> listView;
 
     public TaskItemCell(ListView<TaskItem> listView) {
        this.listView = listView;

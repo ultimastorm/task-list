@@ -7,16 +7,14 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.ParameterExpression;
 import jakarta.persistence.criteria.Root;
-import org.example.model.TaskItem;
+import org.example.model.User;
 
-import java.util.List;
-
-public class TaskItemDao extends GenericDao<TaskItem> {
+public class UserDao extends GenericDao<User> {
 
     private final EntityManagerFactory factory;
 
-    public TaskItemDao(EntityManagerFactory factory) {
-        super(TaskItem.class);
+    public UserDao(EntityManagerFactory factory) {
+        super(User.class);
         this.factory = factory;
     }
 
@@ -30,19 +28,23 @@ public class TaskItemDao extends GenericDao<TaskItem> {
         }
     }
 
-    public List<TaskItem> findAllByUserId(long userId) {
+    public User loginUser(String username, String password) {
         EntityManager em = getEntityManager();
         CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<TaskItem> q = cb.createQuery(TaskItem.class);
+        CriteriaQuery<User> q = cb.createQuery(User.class);
 
-        Root<TaskItem> c = q.from(TaskItem.class);
-        ParameterExpression<Long> paramName = cb.parameter(Long.class);
-        q.select(c).where(cb.equal(c.get("user").get("id"), paramName));
-        TypedQuery<TaskItem> query = em.createQuery(q);
-        query.setParameter(paramName, userId);
+        Root<User> c = q.from(User.class);
+        ParameterExpression<String> userParamName = cb.parameter(String.class);
+        q.select(c).where(cb.equal(c.get("username"), userParamName));
 
-        List<TaskItem> results = query.getResultList();
-        return results;
+        TypedQuery<User> query = em.createQuery(q);
+        query.setParameter(userParamName, username);
+
+        User user = query.getSingleResult();
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+
+        return null;
     }
-
 }

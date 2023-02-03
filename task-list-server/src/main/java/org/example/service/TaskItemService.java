@@ -33,8 +33,8 @@ public class TaskItemService {
         return taskItemDao.find(id);
     }
 
-    public List<TaskItem> findAll() {
-        return taskItemDao.findAll();
+    public List<TaskItem> findAll(long userId) {
+        return taskItemDao.findAllByUserId(userId);
     }
 
     public void remove(long id) {

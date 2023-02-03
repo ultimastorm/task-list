@@ -79,7 +79,6 @@ public class TaskItemView {
 
     @FXML
     private void onRemoveClicked(ActionEvent evt) {
-        // todo: add confirmation Alert
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "Are you sure you want to remove the task?"

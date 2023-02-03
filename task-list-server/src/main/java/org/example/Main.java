@@ -3,7 +3,9 @@ package org.example;
 import com.google.gson.Gson;
 import org.example.model.TaskItem;
 import org.example.model.TaskStatus;
+import org.example.model.User;
 import org.example.service.TaskItemService;
+import org.example.service.UserService;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -49,8 +51,12 @@ public class Main {
 
 //        ts.delete(6);
 //
-//        List<TaskItem> items = ts.findAll();
+//        List<TaskItem> items = ts.findAll(2);
 //        System.out.println(items);
 //        System.out.println(new Gson().toJson(items));
+
+//        UserService us  = new UserService();
+//        User user = us.login("user1", "1234");
+//        System.out.println(user);
     }
 }

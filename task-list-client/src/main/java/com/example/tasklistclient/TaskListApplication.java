@@ -10,10 +10,9 @@ import java.io.IOException;
 public class TaskListApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(TaskListApplication.class.getResource("main-view.fxml"));
-//        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        FXMLLoader fxmlLoader = new FXMLLoader(TaskListApplication.class.getResource("login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load() );
-        stage.setTitle("Task List!");
+        stage.setTitle("Please enter credentials");
         stage.setScene(scene);
         stage.show();
     }

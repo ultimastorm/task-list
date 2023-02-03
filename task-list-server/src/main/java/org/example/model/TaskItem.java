@@ -23,6 +23,18 @@ public class TaskItem implements Serializable {
     @Column(name = "status", nullable = false)
     private TaskStatus status;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public TaskStatus getStatus() {
         return status;
     }
