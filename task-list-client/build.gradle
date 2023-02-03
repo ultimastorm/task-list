@@ -25,7 +25,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'com.example.tasklistclient'
-    mainClass = 'com.example.tasklistclient.HelloApplication'
+    mainClass = 'com.example.tasklistclient.TaskListApplication'
 }
 
 javafx {
@@ -40,6 +40,8 @@ dependencies {
     }
     implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
     implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
+
+    implementation('com.google.code.gson:gson:2.10')
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
