@@ -2,8 +2,11 @@ package org.example;
 
 
 import com.google.gson.Gson;
+import org.example.model.LoginInput;
 import org.example.model.TaskItem;
+import org.example.model.User;
 import org.example.service.TaskItemService;
+import org.example.service.UserService;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -28,15 +31,6 @@ public class CommandService implements Runnable {
         private static final long serialVersionUID = 1L;
 
         {
-            put("command1", (customer) -> {
-//                Customer inputCustomer = new Gson().fromJson(customer, Customer.class);
-//                inputCustomer.setName("Victor");
-//                String customerJson = new Gson().toJson(inputCustomer);
-//                System.out.println("json: " + customerJson);
-////                return inputCustomer.toString();
-//                return customerJson;
-                return "";
-            });
             put("task-item:create", (json) -> {
                 TaskItem taskItem = new Gson().fromJson(json, TaskItem.class);
                 TaskItemService ts = new TaskItemService();
@@ -46,8 +40,9 @@ public class CommandService implements Runnable {
                 return returnJson;
             });
             put("task-item:findAll", (input) -> {
+                long userId = Long.parseLong(input, 10);
                 TaskItemService ts = new TaskItemService();
-                List<TaskItem> items = ts.findAll();
+                List<TaskItem> items = ts.findAll(userId);
                 System.out.println(items);
                 String json = new Gson().toJson(items);
                 System.out.println(json);
@@ -68,6 +63,14 @@ public class CommandService implements Runnable {
                 ts.update(taskItem);
 
                 String returnJson = new Gson().toJson(taskItem);
+                return returnJson;
+            });
+            put("user:login", (json) -> {
+                LoginInput input = new Gson().fromJson(json, LoginInput.class);
+                UserService us = new UserService();
+                User user = us.login(input.username, input.password);
+
+                String returnJson = new Gson().toJson(user);
                 return returnJson;
             });
         }

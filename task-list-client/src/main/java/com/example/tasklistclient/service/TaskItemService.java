@@ -1,6 +1,5 @@
 package com.example.tasklistclient.service;
 
-import com.example.tasklistclient.SocketClientCallable;
 import com.example.tasklistclient.model.TaskItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -72,11 +71,11 @@ public class TaskItemService {
         return null;
     }
 
-    public static List<TaskItem> findAll() {
+    public static List<TaskItem> findAll(long userId) {
 
         ExecutorService es = Executors.newCachedThreadPool();
 
-        SocketClientCallable commandWithSocket = new SocketClientCallable("task-item:findAll", "");
+        SocketClientCallable commandWithSocket = new SocketClientCallable("task-item:findAll", Long.toString(userId));
 
         Future<String> response = es.submit(commandWithSocket);
         try {

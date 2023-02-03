@@ -1,4 +1,4 @@
-package com.example.tasklistclient;
+package com.example.tasklistclient.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
