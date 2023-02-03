@@ -37,7 +37,7 @@ public class TaskItemService {
         return taskItemDao.findAll();
     }
 
-    public void delete(int id) {
+    public void remove(long id) {
         taskItemDao.remove(id);
     }
 }

@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 
 @FunctionalInterface
 interface InputDataHandlerInterface<T> {
@@ -44,11 +45,30 @@ public class CommandService implements Runnable {
                 String returnJson = new Gson().toJson(taskItem);
                 return returnJson;
             });
-            put("command3", (test) -> {
-                return "output3";
+            put("task-item:findAll", (input) -> {
+                TaskItemService ts = new TaskItemService();
+                List<TaskItem> items = ts.findAll();
+                System.out.println(items);
+                String json = new Gson().toJson(items);
+                System.out.println(json);
+                return json;
             });
-            put("command4", (test) -> {
-                return "output4";
+            put("task-item:remove", (json) -> {
+                TaskItem taskItem = new Gson().fromJson(json, TaskItem.class);
+                TaskItemService ts = new TaskItemService();
+                if (taskItem.getId() != null) {
+                    ts.remove(taskItem.getId());
+                    return "Item removed.";
+                }
+                return "Failed to remove item.";
+            });
+            put("task-item:update", (json) -> {
+                TaskItem taskItem = new Gson().fromJson(json, TaskItem.class);
+                TaskItemService ts = new TaskItemService();
+                ts.update(taskItem);
+
+                String returnJson = new Gson().toJson(taskItem);
+                return returnJson;
             });
         }
     };
@@ -91,15 +111,21 @@ public class CommandService implements Runnable {
                 System.out.println("Command received:  " + receivedCommand);
                 System.out.println("Data received:  " + receivedData);
 
-                String result = map.get(receivedCommand).executeTask(receivedData);
-
-                if (!result.isEmpty()) {
-                    System.out.println("command: " + receivedCommand);
-                    System.out.println("result: " + result);
+                InputDataHandlerInterface<String> handler = map.get(receivedCommand);
+//                String result = map.get(receivedCommand).executeTask(receivedData);
+                if (handler == null) {
+                    System.out.println(receivedCommand + " is not a valid command");
                 } else {
-                    System.out.println("Unexpected command");
+                    String result = handler.executeTask(receivedData);
+
+                    if (!result.isEmpty()) {
+                        System.out.println("command: " + receivedCommand);
+                        System.out.println("result: " + result);
+                    } else {
+                        System.out.println("Unexpected command");
+                    }
+                    outputToClient(bufferedOutputWriter, result, true);
                 }
-                outputToClient(bufferedOutputWriter, result, true);
 
             } catch (SocketTimeoutException ste) {
                 // timeout every .25 seconds to see if interrupted
